@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:sqflite/sqflite.dart';
+import 'package:octodb_sqflite/sqflite.dart';
 
 import 'test_page.dart';
 

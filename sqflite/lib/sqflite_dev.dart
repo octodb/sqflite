@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sqflite/src/factory.dart';
-import 'package:sqflite/src/factory_impl.dart';
+import 'package:octodb_sqflite/src/factory.dart';
+import 'package:octodb_sqflite/src/factory_impl.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
 /// Change the default factory used.

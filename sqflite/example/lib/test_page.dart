@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sqflite_example/src/common_import.dart';
-import 'package:sqflite_example/src/expect.dart';
+import 'package:octodb_sqflite_example/src/common_import.dart';
+import 'package:octodb_sqflite_example/src/expect.dart';
 
 import 'model/item.dart';
 import 'model/test.dart';
 import 'src/item_widget.dart';
 
 export 'package:matcher/matcher.dart';
-export 'package:sqflite_example/database/database.dart';
+export 'package:octodb_sqflite_example/database/database.dart';
 
 export 'src/expect.dart' show expect, fail;
 

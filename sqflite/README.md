@@ -1,10 +1,10 @@
-# sqflite
+# octodb_sqflite
 
-[![pub package](https://img.shields.io/pub/v/sqflite.svg)](https://pub.dev/packages/sqflite)
+[![pub package](https://img.shields.io/pub/v/sqflite.svg)](https://pub.dev/packages/octodb_sqflite)
 [![Build Status](https://travis-ci.org/tekartik/sqflite.svg?branch=master)](https://travis-ci.org/tekartik/sqflite)
 [![codecov](https://codecov.io/gh/tekartik/sqflite/branch/master/graph/badge.svg)](https://codecov.io/gh/tekartik/sqflite)
 
-SQLite plugin for [Flutter](https://flutter.io).
+OctoDB/SQLite plugin for [Flutter](https://flutter.io).
 Supports iOS, Android and MacOS.
 
 * Support transactions and batches
@@ -26,7 +26,7 @@ In your flutter project add the dependency:
 ```yml
 dependencies:
   ...
-  sqflite:
+  octodb_sqflite:
 ```
 
 For help getting started with Flutter, view the online

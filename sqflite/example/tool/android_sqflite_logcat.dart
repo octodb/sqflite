@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'package:process_run/shell.dart';
-import 'package:sqflite_example/src/common_import.dart';
+import 'package:octodb_sqflite_example/src/common_import.dart';
 
 Future<void> main() async {
   final controller = StreamController<List<int>>();

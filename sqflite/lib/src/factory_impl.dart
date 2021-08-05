@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/src/exception_impl.dart' as impl;
-import 'package:sqflite/src/sqflite_impl.dart' as impl;
-import 'package:sqflite/src/sqflite_import.dart';
+import 'package:octodb_sqflite/sqflite.dart';
+import 'package:octodb_sqflite/src/exception_impl.dart' as impl;
+import 'package:octodb_sqflite/src/sqflite_impl.dart' as impl;
+import 'package:octodb_sqflite/src/sqflite_import.dart';
 
 SqfliteDatabaseFactory? _databaseFactory;
 

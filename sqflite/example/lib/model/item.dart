@@ -1,4 +1,4 @@
-import 'package:sqflite_example/src/common_import.dart';
+import 'package:octodb_sqflite_example/src/common_import.dart';
 
 /// Item states.
 enum ItemState {

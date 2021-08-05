@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sql.dart';
+import 'package:octodb_sqflite/sqflite.dart';
+import 'package:octodb_sqflite/sql.dart';
 
 import 'test_page.dart';
 

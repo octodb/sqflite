@@ -5,14 +5,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/src/database_mixin.dart' // ignore: implementation_imports
+import 'package:octodb_sqflite/sqflite.dart';
+import 'package:octodb_sqflite/src/database_mixin.dart' // ignore: implementation_imports
     show
         SqfliteDatabaseMixin;
-import 'package:sqflite/src/factory_mixin.dart' // ignore: implementation_imports
+import 'package:octodb_sqflite/src/factory_mixin.dart' // ignore: implementation_imports
     show
         SqfliteDatabaseFactoryMixin;
-import 'package:sqflite_example/src/dev_utils.dart';
+import 'package:octodb_sqflite_example/src/dev_utils.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'test_page.dart';

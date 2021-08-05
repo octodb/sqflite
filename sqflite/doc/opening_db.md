@@ -171,7 +171,7 @@ will give you the same database.
 
 If you open the same database multiple times using `singleInstance: false`, you might encounter (at least on Android):
 
-    android.database.sqlite.SQLiteDatabaseLockedException: database is locked (code 5)
+    org.sqlite.database.sqlite.SQLiteDatabaseLockedException: database is locked (code 5)
     
 Let's consider the following helper class
 

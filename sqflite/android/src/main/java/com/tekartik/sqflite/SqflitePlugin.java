@@ -3,9 +3,9 @@ package com.tekartik.sqflite;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteCantOpenDatabaseException;
-import android.database.sqlite.SQLiteDatabase;
+import org.sqlite.database.SQLException;
+import org.sqlite.database.sqlite.SQLiteCantOpenDatabaseException;
+import org.sqlite.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -89,7 +89,7 @@ public class SqflitePlugin implements FlutterPlugin, MethodCallHandler {
 
     // Needed public constructor
     public SqflitePlugin() {
-
+        System.loadLibrary("octodb");
     }
 
     // Testing only
