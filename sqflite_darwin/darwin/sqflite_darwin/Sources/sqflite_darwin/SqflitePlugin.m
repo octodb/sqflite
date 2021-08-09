@@ -516,7 +516,14 @@ static NSInteger _databaseOpenCount = 0;
     // Make sure the directory exists
     if (!inMemoryPath && !readOnly) {
         NSError* error;
-        NSString* parentDir = [path stringByDeletingLastPathComponent];
+        NSString *filepath;
+        if ([path hasPrefix:@"file:"]) {
+            NSRange remaining = [path rangeOfString:@"?"];
+            filepath = [path substringWithRange:NSMakeRange(5, remaining.location - 5)];
+        } else {
+            filepath = path;
+        }
+        NSString* parentDir = [filepath stringByDeletingLastPathComponent];
         if (![[NSFileManager defaultManager] fileExistsAtPath:parentDir]) {
             if (_log) {
                 NSLog(@"Creating parent dir %@", parentDir);

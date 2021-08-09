@@ -228,6 +228,8 @@ mixin SqfliteDatabaseFactoryMixin
       return inMemoryDatabasePath;
     } else if (_kIsWeb || pu.isFileUriDatabasePath(path)) {
       // nothing
+    } else if (path.startsWith('file:')) {
+      // nothing
     } else {
       if (isRelative(path)) {
         path = join(await getDatabasesPath(), path);

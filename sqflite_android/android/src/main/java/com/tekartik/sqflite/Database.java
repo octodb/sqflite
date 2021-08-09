@@ -138,7 +138,7 @@ class Database {
     }
 
     public void open() {
-        int flags = SQLiteDatabase.CREATE_IF_NECESSARY;
+        int flags = SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY;
 
         // Check meta data only once
         if (walGloballyEnabled == null) {
