@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common/src/batch.dart';
 import 'package:sqflite_common/src/collection_utils.dart';
@@ -507,6 +509,76 @@ mixin SqfliteDatabaseMixin implements SqfliteDatabase {
   }
 
   ///
+  /// Check if the database is ready for access
+  ///
+  @override
+  Future<bool> isReady() async {
+    final status = await rawQuery('PRAGMA sync_status');
+    return status.toString().contains('"db_is_ready": true');
+  }
+
+  ///
+  /// Register callbacks for database events
+  ///
+  /// ```
+  /// db.events(
+  ///   onNotReady: {
+  ///
+  ///   },
+  ///   onReady: {
+  ///
+  ///   },
+  ///   onSync: {
+  ///
+  ///   }
+  /// );
+  /// ```
+  ///
+  @override
+  Future<void> events({
+    OnDatabaseNotReadyFn? onNotReady,
+    OnDatabaseReadyFn? onReady,
+    OnDatabaseSyncFn? onSync
+  }) async {
+
+    RawDatagramSocket.bind(InternetAddress.loopbackIPv4, 0).then((RawDatagramSocket socket) async {
+
+      print('UDP socket bound to ${socket.address.address}:${socket.port}');
+
+      socket.listen((RawSocketEvent e){
+        Datagram? d = socket.receive();
+        if (d == null) return;
+        String message = new String.fromCharCodes(d.data).trim();
+        print('Message from ${d.address.address}:${d.port}: ${message}');
+        if (message == 'on_ready') {
+          if (onReady != null) {
+            onReady();
+          }
+        } else if (message == 'on_sync') {
+          if (onSync != null) {
+            onSync();
+          }
+        }
+      });
+
+      execute('PRAGMA enable_notifications="udp:${socket.port}"');
+
+      var is_ready = await isReady();
+      if (is_ready) {
+        if (onReady != null) {
+          onReady();
+        }
+      } else {
+        if (onNotReady != null) {
+          onNotReady();
+        }
+      }
+
+    });
+
+  }
+
+  ///
   /// Get the database inner version
   ///
   @override
@@ -521,7 +593,7 @@ mixin SqfliteDatabaseMixin implements SqfliteDatabase {
   ///
   @override
   Future<void> setVersion(int version) async {
-    await execute('PRAGMA user_version = $version');
+    //await execute('PRAGMA user_version = $version');
   }
 
   /// Close the database. Cannot be access anymore
@@ -543,7 +615,7 @@ mixin SqfliteDatabaseMixin implements SqfliteDatabase {
     if (readOnly == true) {
       params[paramReadOnly] = true;
     }
-    final singleInstance = options?.singleInstance ?? false;
+    final singleInstance = true;   // options?.singleInstance ?? false;
     // Single instance?
     params[paramSingleInstance] = singleInstance;
 
@@ -628,113 +700,15 @@ mixin SqfliteDatabaseMixin implements SqfliteDatabase {
   // not exported
   @override
   Future<SqfliteDatabase> doOpen(OpenDatabaseOptions options) async {
-    if (options.version != null) {
-      if (options.version == 0) {
-        throw ArgumentError('version cannot be set to 0 in openDatabase');
-      }
-    } else {
-      if (options.onCreate != null) {
-        throw ArgumentError('onCreate must be null if no version is specified');
-      }
-      if (options.onUpgrade != null) {
-        throw ArgumentError(
-            'onUpgrade must be null if no version is specified');
-      }
-      if (options.onDowngrade != null) {
-        throw ArgumentError(
-            'onDowngrade must be null if no version is specified');
-      }
-    }
+
     this.options = options;
     var databaseId = await openDatabase();
 
     try {
-      // Special on downgrade delete database
-      if (options.onDowngrade == onDatabaseDowngradeDelete) {
-        // Downgrading will delete the database and open it again
-        Future<void> _onDatabaseDowngradeDelete(
-            Database _db, int oldVersion, int newVersion) async {
-          final db = _db as SqfliteDatabase;
-          // This is tricky as we are in the middle of opening a database
-          // need to close what is being done and restart
-          await db.doClose();
-          // But don't mark it as closed
-          isClosed = false;
-
-          await factory.deleteDatabase(db.path);
-
-          // get a new database id after open
-          db.id = databaseId = await openDatabase();
-
-          try {
-            // Since we deleted the database re-run the needed first steps:
-            // onConfigure then onCreate
-            if (options.onConfigure != null) {
-              await options.onConfigure!(db);
-            }
-          } catch (e) {
-            // This exception is sometimes hard te catch
-            // during development
-            print(e);
-
-            // create a transaction just to make the current transaction happy
-            await db.beginTransaction(exclusive: true);
-            rethrow;
-          }
-
-          // no end transaction it will be done later before calling then onOpen
-          await db.beginTransaction(exclusive: true);
-          if (options.onCreate != null) {
-            await options.onCreate!(db, options.version!);
-          }
-        }
-
-        options.onDowngrade = _onDatabaseDowngradeDelete;
-      }
-
       id = databaseId;
 
-      // create dummy open transaction
-      openTransaction = SqfliteTransaction(this);
-
-      // first configure it
       if (options.onConfigure != null) {
         await options.onConfigure!(this);
-      }
-
-      if (options.version != null) {
-        // Check the version outside of the transaction
-        // And only create the transaction if needed (https://github.com/tekartik/sqflite/issues/459)
-        final oldVersion = await getVersion();
-        if (oldVersion != options.version) {
-          await transaction((Transaction txn) async {
-            // Set the current transaction as the open one
-            // to allow direct database call during open
-            final sqfliteTransaction = txn as SqfliteTransaction;
-            openTransaction = sqfliteTransaction;
-
-            // We read again the version to be safe regarding edge cases
-            final oldVersion = await getVersion();
-            if (oldVersion == 0) {
-              if (options.onCreate != null) {
-                await options.onCreate!(this, options.version!);
-              } else if (options.onUpgrade != null) {
-                await options.onUpgrade!(this, 0, options.version!);
-              }
-            } else if (options.version! > oldVersion) {
-              if (options.onUpgrade != null) {
-                await options.onUpgrade!(this, oldVersion, options.version!);
-              }
-            } else if (options.version! < oldVersion) {
-              if (options.onDowngrade != null) {
-                await options.onDowngrade!(this, oldVersion, options.version!);
-              }
-            }
-            if (oldVersion != options.version) {
-              await setVersion(options.version!);
-            }
-          }, exclusive: true);
-        }
       }
 
       if (options.onOpen != null) {
