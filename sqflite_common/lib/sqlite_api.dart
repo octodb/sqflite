@@ -28,6 +28,20 @@ export 'package:sqflite_common/src/exception.dart' show DatabaseException;
 export 'package:sqflite_common/src/sqflite_debug.dart'
     show SqfliteDatabaseFactoryDebug, DatabaseFactoryLoggerDebugExt;
 
+
+/// Prototype of the function called when the database is not yet ready.
+///
+typedef OnDatabaseNotReadyFn = FutureOr<void> Function();
+
+/// Prototype of the function called when the database is ready.
+///
+typedef OnDatabaseReadyFn = FutureOr<void> Function();
+
+/// Prototype of the function called when the database receives a sync update.
+///
+typedef OnDatabaseSyncFn = FutureOr<void> Function();
+
+
 /// Basic databases operations
 abstract class DatabaseFactory {
   /// Open a database at [path] with the given [OpenDatabaseOptions]`options`
@@ -330,6 +344,33 @@ abstract class Database implements DatabaseExecutor {
 
   /// Tell if the database is open, returns false once close has been called
   bool get isOpen;
+
+  /// Check if the database is ready for access
+  Future<bool> isReady();
+
+  ///
+  /// Register callbacks for database events
+  ///
+  /// ```
+  /// db.events(
+  ///   onNotReady: {
+  ///
+  ///   },
+  ///   onReady: {
+  ///
+  ///   },
+  ///   onSync: {
+  ///
+  ///   }
+  /// );
+  /// ```
+  ///
+  @override
+  Future<void> events({
+    OnDatabaseNotReadyFn? onNotReady,
+    OnDatabaseReadyFn? onReady,
+    OnDatabaseSyncFn? onSync
+  });
 
   /// testing only
   @Deprecated('Dev only')
