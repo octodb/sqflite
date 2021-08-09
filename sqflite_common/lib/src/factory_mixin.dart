@@ -175,6 +175,8 @@ mixin SqfliteDatabaseFactoryMixin
   Future<String> fixPath(String path) async {
     if (isInMemoryDatabasePath(path)) {
       // nothing
+    } else if (path.startsWith('file:')) {
+      // nothing
     } else {
       if (isRelative(path)) {
         path = join(await getDatabasesPath(), path);

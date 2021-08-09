@@ -26,7 +26,7 @@ class Database {
 
     public void open() {
         sqliteDatabase = SQLiteDatabase.openDatabase(path, null,
-                SQLiteDatabase.CREATE_IF_NECESSARY);
+                SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY);
     }
 
     // Change default error handler to avoid erasing the existing file.

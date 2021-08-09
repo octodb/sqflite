@@ -781,12 +781,18 @@ public class SqflitePlugin implements FlutterPlugin, MethodCallHandler {
                             synchronized (openCloseLocker) {
 
                                 if (!inMemory) {
-                                    File file = new File(path);
+                                    String filepath;
+                                    if (path.startsWith("file:")) {
+                                        filepath = path.substring(5, path.indexOf("?"));
+                                    } else {
+                                        filepath = path;
+                                    }
+                                    File file = new File(filepath);
                                     File directory = new File(file.getParent());
                                     if (!directory.exists()) {
                                         if (!directory.mkdirs()) {
                                             if (!directory.exists()) {
-                                                bgResult.error(Constant.SQLITE_ERROR, Constant.ERROR_OPEN_FAILED + " " + path, null);
+                                                bgResult.error(Constant.SQLITE_ERROR, Constant.ERROR_OPEN_FAILED + " creating path " + filepath, null);
                                                 return;
                                             }
                                         }
