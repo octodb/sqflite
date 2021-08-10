@@ -2,31 +2,34 @@
 
 [![pub package](https://img.shields.io/pub/v/sqflite.svg)](https://pub.dev/packages/octodb_sqflite)
 
-OctoDB/SQLite plugin for [Flutter](https://flutter.io).
+OctoDB & SQLite plugin for [Flutter](https://flutter.io).
 Supports iOS, Android and MacOS.
 
 * Support transactions and batches
-* Automatic version managment during open
 * Helpers for insert/query/update/delete queries
 * DB operation executed in a background thread on iOS and Android
 
 Other platforms support:
+
 * Linux/Windows/DartVM support using [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)
 * Experimental Web support using [sqflite_common_ffi_web](https://pub.dev/packages/sqflite_common_ffi_web).
 
-Usage example: 
+
+## Sample Project
+
 * [notepad_sqflite](https://github.com/alextekartik/flutter_app_example/tree/master/notepad_sqflite): Simple flutter notepad working on iOS/Android/Windows/linux/Mac
+
 
 ## Getting Started
 
-To get started, you need to add `sqflite` to your project. Follow the steps below:
+To get started, you need to add `octodb_sqflite` to your project. Follow the steps below:
 
 1. Open the terminal in your project root. You can do this by pressing `Alt+F12` in Android Studio or `` Ctrl+` `` in VS Code.
 
 2. Run the following command:
 
 ```bash
-flutter pub add sqflite
+flutter pub add octodb_sqflite
 ```
 
 This command will add a line to your package's `pubspec.yaml` file and run an implicit `flutter pub get`. The added line will look like this:
@@ -36,34 +39,146 @@ dependencies:
   octodb_sqflite:
 ```
 
-## Usage example
+For help getting started with Flutter, view the online [documentation](https://flutter.io/).
 
-Import `sqflite.dart`
 
-```dart
-import 'package:sqflite/sqflite.dart';
+## Native Libraries
+
+To install the free version of OctoDB native libraries, execute the following in your project root folder:
+
+```
+export FLUTTER_PATH=/path/to/flutter/sdk     # <-- put the path to the Flutter SDK here
+echo '----- Android -----'
+wget http://octodb.io/download/octodb.aar
+mv octodb.aar $FLUTTER_PATH/.pub-cache/hosted/pub.dartlang.org/octodb_sqflite-*/android/
+echo '-----   iOS   -----'
+mkdir octodb && cd octodb
+wget http://octodb.io/download/octodb-free-ios-native-libs.tar.gz
+tar zxvf octodb-free-ios-native-libs.tar.gz
+cd ..
 ```
 
-### Opening a database
+When moving to the full version of OctoDB just copy the libraries to the respective folders as done above, replacing the existing files.
 
-A SQLite database is a file in the file system identified by a path. If relative, this path is relative to the path
-obtained by `getDatabasesPath()`, which is the default database directory on Android and the documents directory on iOS/MacOS.
+
+## Usage
 
 ```dart
-var db = await openDatabase('my_db.db');
+import 'package:octodb_sqflite/sqflite.dart';
 ```
 
-There is a basic migration mechanism to handle schema changes during opening.
+### Opening a Database
 
-Many applications use one database and would never need to close it (it will be closed when the application is
-terminated). If you want to release resources, you can close the database.
+A SQLite database is a file in the file system. If no full path is given, the file is saved in the folder obtained by `getDatabasesPath()`, which is the default database directory on Android and the documents directory on iOS/MacOS.
+
+```dart
+var uri = 'file:my_db.db?node=secondary&connect=tcp://111.222.33.44:1234'
+var db = await openDatabase(uri);
+```
+
+Many applications use the database and would never need to close it (it will be closed when the application is
+terminated). If you want to release resources, you can close the database:
 
 ```dart
 await db.close();
 ```
 
-* See [more information on opening a database](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/opening_db.md).
-* Full [migration example](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/migration_example.md)
+* See [more information on opening a database](https://github.com/octodb/sqflite/blob/master/sqflite/doc/opening_db.md).
+
+
+### Database Status
+
+:warning:  The application should **NOT** access the database before it is ready for read and write!
+
+Here is an example block of code using database events:
+
+```dart
+db.events(onNotReady: () {
+  // the user is not logged in. show the login screen (and do not access the database)
+  ...
+}, onReady: () {
+  // the user is already logged in or the login was successful. show the main screen
+  ...
+}, onSync: () {
+  // the db received an update. update the screen with new data
+  ...
+});
+```
+
+It is also possible to check without events:
+
+```dart
+if await db.isReady() {
+  ...
+}
+```
+
+To check the full status of the database we can use:
+
+```dart
+var res = await db.rawQuery('PRAGMA sync_status');
+print('sync status: ${res}');
+```
+
+
+### User Sign Up & User Login 
+
+When the user is accessing your app for the first time (in any device), it will be required to sign up
+
+The app can capture user data and send it to the backend user authorization service using this command:
+
+```
+pragma user_signup='<user_data>'
+```
+
+If the user is already signed up on your backend and is now using a new device, it should use the login option:
+
+```
+pragma user_login='<user_data>'
+```
+
+You can use any user data you want (phone number, username, OAuth...). The data can be encoded in a text (JSON, YAML...)
+or a binary format. If using a text format, each single quote must be doubled (replace `'` with `''`).
+If using a binary format then it must be encoded in base64 or hex because the command only accepts strings.
+
+Here is an example code using JSON:
+
+```dart
+var user = {};
+user["email"] = ...
+user["password"] = ...
+String str = json.encode(user);
+str = str.replaceAll("'", "''");
+db.execute("pragma user_signup='${str}'");
+```
+
+Notice that you must implement the [backend service](https://github.com/octodb/docs/blob/master/auth-service.md)
+that handles these authorization requests.
+
+
+### Multi-User App
+
+To support multiple users in a single app installation your app can have a database for each user.
+
+Your app will need to keep track of which database is used for each user.
+An easy way is to convert the username or e-mail into hex format and then use it as the database name:
+
+```dart
+var dbname = hex(email) + ".db"
+var uri = "file:" + dbname + "?node=secondary&connect=tcp://111.222.33.44:1234"
+```
+
+#### Sign Out
+
+Just close the currently open database and display the signup & login screen
+
+#### Login
+
+When the user enters its data (usually e-mail and password):
+
+1. Get the database name based on the e-mail and open it
+2. Wait for the db event. If not ready, then send signup/login info via the `pragma` command. If ready, then check if the password is correct
+
 
 ### Raw SQL queries
     
@@ -73,17 +188,12 @@ Demo code to perform Raw SQL queries
 // Get a location using getDatabasesPath
 var databasesPath = await getDatabasesPath();
 String path = join(databasesPath, 'demo.db');
-
-// Delete the database
-await deleteDatabase(path);
+String uri = 'file:' + path + '?node=secondary&connect=tcp://server:port';
 
 // open the database
-Database database = await openDatabase(path, version: 1,
-    onCreate: (Database db, int version) async {
-  // When creating the db, create the table
-  await db.execute(
-      'CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)');
-});
+Database database = await openDatabase(uri);
+
+// --- the code below should be executed after the database is ready for access ---
 
 // Insert some records in a transaction
 await database.transaction((txn) async {
@@ -113,8 +223,8 @@ print(expectedList);
 assert(const DeepCollectionEquality().equals(list, expectedList));
 
 // Count the records
-count = Sqflite
-    .firstIntValue(await database.rawQuery('SELECT COUNT(*) FROM Test'));
+count = Sqflite.firstIntValue(
+    await database.rawQuery('SELECT COUNT(*) FROM Test'));
 assert(count == 2);
 
 // Delete a record
@@ -122,11 +232,11 @@ count = await database
     .rawDelete('DELETE FROM Test WHERE name = ?', ['another name']);
 assert(count == 1);
 
-// Close the database
-await database.close();
+// Close the database - only if strictly necessary
+//await database.close();
 ```
 
-Basic information on SQL [here](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/sql.md).
+Basic information on SQL [here](https://github.com/octodb/sqflite/blob/master/sqflite/doc/sql.md).
 
 ### SQL helpers
 
@@ -167,15 +277,7 @@ class TodoProvider {
   Database db;
 
   Future open(String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-create table $tableTodo ( 
-  $columnId integer primary key autoincrement, 
-  $columnTitle text not null,
-  $columnDone integer not null)
-''');
-    });
+    db = await openDatabase(path);
   }
 
   Future<Todo> insert(Todo todo) async {
@@ -234,10 +336,11 @@ Map<String, Object?> map = Map<String, Object?>.from(mapRead);
 map['my_column'] = 1;
 ```
 
-### Transaction
+### Transactions
 
-Don't use the database but only use the Transaction object in a transaction
-to access the database. Keep in mind that the callbacks ```onCreate``` ```onUpgrade``` ```onDowngrade``` are already internally wrapped in a transaction, so there is no need to wrap your statements in a transaction within those callbacks.
+:warning: Do not use the database object when inside of a transaction!
+
+Only use the transaction object:
 
 ```dart
 await database.transaction((txn) async {
@@ -396,8 +499,6 @@ thread is blocked while in a transaction...
 
 ## More
 
-* [How to](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/how_to.md) guide
-* [Notes about Desktop support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/desktop_support.md)
-* [Notes about Encryption support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/encryption_support.md)
-* [Notes about Web support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/web_support.md)
-* [Notes about SQLite versions](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/version.md) as some features may not be available depending on the SQLite version.
+* [How to](https://github.com/octodb/sqflite/blob/master/sqflite/doc/how_to.md) guide
+* [Notes about Desktop support](https://github.com/octodb/sqflite/blob/master/sqflite/doc/desktop_support.md)
+* [Notes about SQLite versions](https://github.com/octodb/sqflite/blob/master/sqflite/doc/version.md) as some features may not be available depending on the SQLite version.
