@@ -1,1 +1,1 @@
-export 'package:sqflite_common/src/dev_utils.dart';
+export 'package:octodb_sqflite_common/src/dev_utils.dart';
