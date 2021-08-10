@@ -1,5 +1,5 @@
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/factory_mixin.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/factory_mixin.dart';
 
 /// Mixin handler
 abstract class SqfliteInvokeHandler {

@@ -1,7 +1,7 @@
-import 'package:sqflite_common/sqflite_dev.dart';
-import 'package:sqflite_common/src/constant.dart';
-import 'package:sqflite_common/src/method_call.dart';
-import 'package:sqflite_common/src/mixin/factory.dart';
+import 'package:octodb_sqflite_common/sqflite_dev.dart';
+import 'package:octodb_sqflite_common/src/constant.dart';
+import 'package:octodb_sqflite_common/src/method_call.dart';
+import 'package:octodb_sqflite_common/src/mixin/factory.dart';
 import 'package:test/test.dart';
 
 var logs = <SqfliteMethodCall>[];

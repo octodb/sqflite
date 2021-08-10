@@ -1,9 +1,9 @@
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/constant.dart';
-import 'package:sqflite_common/src/database.dart';
-import 'package:sqflite_common/src/sql_builder.dart';
-import 'package:sqflite_common/src/transaction.dart';
-import 'package:sqflite_common/src/utils.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/constant.dart';
+import 'package:octodb_sqflite_common/src/database.dart';
+import 'package:octodb_sqflite_common/src/sql_builder.dart';
+import 'package:octodb_sqflite_common/src/transaction.dart';
+import 'package:octodb_sqflite_common/src/utils.dart';
 
 /// Batch implementation
 abstract class SqfliteBatch implements Batch {
