@@ -43,15 +43,13 @@ For help getting started with Flutter, view the online [documentation](https://f
 To install the free version of OctoDB native libraries, execute the following:
 
 ```
+export FLUTTER_PATH=/path/to/flutter/sdk     # <-- put the path to the Flutter SDK here
 wget http://octodb.io/download/octodb.aar
 wget http://octodb.io/download/octodb-free-ios-native-libs.tar.gz
 tar zxvf octodb-free-ios-native-libs.tar.gz lib
-echo $(FLUTTER_PATH)
 mv lib $(FLUTTER_PATH)/.pub-cache/hosted/pub.dartlang.org/octodb_sqflite-*/ios/
 mv octodb.aar $(FLUTTER_PATH)/.pub-cache/hosted/pub.dartlang.org/octodb_sqflite-*/android/
 ```
-
-If `FLUTTER_PATH` is not defined, you can define it using the path to the Flutter SDK.
 
 When moving to the full version of OctoDB just copy the libraries to the respective folders as done above, replacing the existing files.
 
