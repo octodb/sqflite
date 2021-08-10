@@ -18,6 +18,7 @@ Other platforms support:
 Usage example: 
 * [notepad_sqflite](https://github.com/alextekartik/flutter_app_example/tree/master/notepad_sqflite): Simple flutter notepad working on iOS/Android/Windows/linux/Mac
 
+
 ## Getting Started
 
 In your flutter project add the dependency:
@@ -28,8 +29,32 @@ dependencies:
   octodb_sqflite:
 ```
 
-For help getting started with Flutter, view the online
-[documentation](https://flutter.io/).
+Then run:
+
+```
+flutter pub get
+```
+
+For help getting started with Flutter, view the online [documentation](https://flutter.io/).
+
+
+## Native libraries
+
+To install the free version of OctoDB native libraries, execute the following:
+
+```
+wget http://octodb.io/download/octodb.aar
+wget http://octodb.io/download/octodb-free-ios-native-libs.tar.gz
+tar zxvf octodb-free-ios-native-libs.tar.gz lib
+echo $(FLUTTER_PATH)
+mv lib $(FLUTTER_PATH)/.pub-cache/hosted/pub.dartlang.org/octodb_sqflite-*/ios/
+mv octodb.aar $(FLUTTER_PATH)/.pub-cache/hosted/pub.dartlang.org/octodb_sqflite-*/android/
+```
+
+If `FLUTTER_PATH` is not defined, you can define it using the path to the Flutter SDK.
+
+When moving to the full version of OctoDB just copy the libraries to the respective folders as done above, replacing the existing files.
+
 
 ## Usage example
 
