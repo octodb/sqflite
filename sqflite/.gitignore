@@ -17,3 +17,6 @@ coverage/
 
 # flutter
 .metadata
+
+# OctoDB
+android/octodb.aar

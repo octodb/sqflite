@@ -1,1 +1,1 @@
-export 'package:sqflite_common/src/database_mixin.dart';
+export 'package:octodb_sqflite_common/src/database_mixin.dart';

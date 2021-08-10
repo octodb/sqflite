@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
 
 import 'test_page.dart';
 

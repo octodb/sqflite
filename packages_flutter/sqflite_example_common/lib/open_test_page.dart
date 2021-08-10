@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/src/database_mixin.dart' // ignore: implementation_imports
+import 'package:octodb_sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/src/database_mixin.dart' // ignore: implementation_imports
     show SqfliteDatabaseMixin;
-import 'package:sqflite_common/src/factory_mixin.dart' // ignore: implementation_imports
+import 'package:octodb_sqflite_common/src/factory_mixin.dart' // ignore: implementation_imports
     show SqfliteDatabaseFactoryMixin;
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 import 'package:sqflite_example_common/utils.dart';
 import 'package:synchronized/synchronized.dart';
 

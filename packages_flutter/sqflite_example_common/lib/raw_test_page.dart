@@ -2,8 +2,8 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 import 'package:sqflite_example_common/utils.dart';
 
 import 'src/common_import.dart';

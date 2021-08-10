@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
 import 'package:sqflite_example_common/database/database.dart';
 
 class _PlatformHandlerIo extends PlatformHandler {

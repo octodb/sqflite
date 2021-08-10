@@ -1,5 +1,5 @@
 import 'package:sqflite/src/sqflite_import.dart';
-import 'package:sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
 
 import 'constant.dart';
 

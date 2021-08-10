@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/sql.dart';
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sql.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 
 import 'src/common_import.dart';
 import 'test_page.dart';

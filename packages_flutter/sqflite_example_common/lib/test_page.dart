@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/sqflite_dev.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sqflite_dev.dart';
 import 'package:sqflite_example_common/src/common_import.dart';
 import 'package:sqflite_example_common/src/expect.dart';
 

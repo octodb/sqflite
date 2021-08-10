@@ -4,12 +4,12 @@
 Pod::Spec.new do |s|
   s.name             = 'sqflite_darwin'
   s.version          = '0.0.4'
-  s.summary          = 'An iOS and macOS implementation for the sqflite plugin.'
+  s.summary          = 'An iOS and macOS implementation for the OctoDB & SQLite plugin.'
   s.description      = <<-DESC
     An iOS and macOS implementation of the Flutter sqflite plugin to
-    Access SQLite database.
+    Access OctoDB & SQLite databases.
                        DESC
-  s.homepage         = 'https://github.com/tekartik/sqflite/tree/master/sqflite_darwin'
+  s.homepage         = 'https://github.com/octodb/sqflite/tree/master/sqflite_darwin'
   s.license          = { :type => 'BSD', :file => '../LICENSE' }
   s.author           = { 'Tekartik' => 'alex@tekartik.com' }
   s.source           = { :http => 'https://github.com/tekartik/sqflite/tree/master/sqflite_darwin' }
@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.public_header_files = 'sqflite_darwin/Sources/sqflite_darwin/include/**/*.{h,m}'
   s.ios.dependency 'Flutter'
   s.osx.dependency 'FlutterMacOS'
+  s.dependency 'OctoFMDB', :git => 'https://github.com/octodb/fmdb'
   s.ios.deployment_target = '12.0'
   s.osx.deployment_target = '10.14'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

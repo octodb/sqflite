@@ -12,7 +12,7 @@ Here are some debugging tips when you encounter issues:
 The easiest is to wrap the factory you are using with `SqfliteDatabaseFactoryLogger`
 
 ```dart
-import 'package:sqflite_common/sqflite_logger.dart';
+import 'package:octodb_sqflite_common/sqflite_logger.dart';
 
 Future<void> main() async {
   var factoryWithLogs = SqfliteDatabaseFactoryLogger(databaseFactory,
@@ -66,7 +66,7 @@ databaseFactory = databaseFactory.debugQuickLoggerWrapper();
 Temporarily turn on SQL logging on the console by adding the following call in your code before opening the first database
 
 ````dart
-import 'package:sqflite_common/sqflite_dev.dart';
+import 'package:octodb_sqflite_common/sqflite_dev.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<void> main() async {
@@ -111,7 +111,7 @@ dev_dependencies:
 ```
 
 ```dart
-import 'package:sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:test/test.dart';
 

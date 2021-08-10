@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
 
 import 'database.dart';
 

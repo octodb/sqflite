@@ -11,7 +11,7 @@ import 'sqlite_api.dart';
 
 export 'package:octodb_sqflite/sql.dart' show ConflictAlgorithm;
 export 'package:octodb_sqflite/src/compat.dart';
-export 'package:sqflite_common/sqflite.dart';
+export 'package:octodb_sqflite_common/sqflite.dart';
 
 export 'sqlite_api.dart';
 export 'src/factory_impl.dart' show databaseFactorySqflitePlugin;

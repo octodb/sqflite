@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/sqflite_dev.dart';
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/sqflite.dart';
+import 'package:octodb_sqflite_common/sqflite_dev.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 import 'package:sqflite_example_common/src/common_import.dart';
 import 'package:sqflite_example_common/utils.dart';
 
