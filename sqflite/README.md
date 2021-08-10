@@ -4,11 +4,10 @@
 [![Build Status](https://travis-ci.org/tekartik/sqflite.svg?branch=master)](https://travis-ci.org/tekartik/sqflite)
 [![codecov](https://codecov.io/gh/tekartik/sqflite/branch/master/graph/badge.svg)](https://codecov.io/gh/tekartik/sqflite)
 
-OctoDB/SQLite plugin for [Flutter](https://flutter.io).
+OctoDB & SQLite plugin for [Flutter](https://flutter.io).
 Supports iOS, Android and MacOS.
 
 * Support transactions and batches
-* Automatic version managment during open
 * Helpers for insert/query/update/delete queries
 * DB operation executed in a background thread on iOS and Android
 
@@ -34,24 +33,20 @@ For help getting started with Flutter, view the online
 
 ## Usage example
 
-
-
 Import `sqflite.dart`
 
 ```dart
-import 'package:sqflite/sqflite.dart';
+import 'package:octodb_sqflite/sqflite.dart';
 ```
 
 ### Opening a database
 
-A SQLite database is a file in the file system identified by a path. If relative, this path is relative to the path
-obtained by `getDatabasesPath()`, which is the default database directory on Android and the documents directory on iOS/MacOS.
+A SQLite database is a file in the file system. If no full path is given, the file is saved in the folder obtained by `getDatabasesPath()`, which is the default database directory on Android and the documents directory on iOS/MacOS.
 
 ```dart
-var db = await openDatabase('my_db.db');
+var uri = 'file:my_db.db?node=secondary&connect=tcp://111.222.33.44:1234'
+var db = await openDatabase(uri);
 ```
-
-There is a basic migration mechanism to handle schema changes during opening.
 
 Many applications use one database and would never need to close it (it will be closed when the application is
 terminated). If you want to release resources, you can close the database.
@@ -60,8 +55,7 @@ terminated). If you want to release resources, you can close the database.
 await db.close();
 ```
 
-* See [more information on opening a database](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/opening_db.md).
-* Full [migration example](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/migration_example.md)
+* See [more information on opening a database](https://github.com/octodb/sqflite/blob/master/sqflite/doc/opening_db.md).
 
 ### Raw SQL queries
     
@@ -71,17 +65,10 @@ Demo code to perform Raw SQL queries
 // Get a location using getDatabasesPath
 var databasesPath = await getDatabasesPath();
 String path = join(databasesPath, 'demo.db');
-
-// Delete the database
-await deleteDatabase(path);
+String uri = 'file:' + path + '?node=secondary&connect=tcp://server:port';
 
 // open the database
-Database database = await openDatabase(path, version: 1,
-    onCreate: (Database db, int version) async {
-  // When creating the db, create the table
-  await db.execute(
-      'CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)');
-});
+Database database = await openDatabase(uri);
 
 // Insert some records in a transaction
 await database.transaction((txn) async {
@@ -124,7 +111,7 @@ assert(count == 1);
 await database.close();
 ```
 
-Basic information on SQL [here](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/sql.md).
+Basic information on SQL [here](https://github.com/octodb/sqflite/blob/master/sqflite/doc/sql.md).
 
 ### SQL helpers
 
@@ -165,15 +152,7 @@ class TodoProvider {
   Database db;
 
   Future open(String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-create table $tableTodo ( 
-  $columnId integer primary key autoincrement, 
-  $columnTitle text not null,
-  $columnDone integer not null)
-''');
-    });
+    db = await openDatabase(path);
   }
 
   Future<Todo> insert(Todo todo) async {
@@ -235,7 +214,7 @@ map['my_column'] = 1;
 ### Transaction
 
 Don't use the database but only use the Transaction object in a transaction
-to access the database. Keep in mind that the callbacks ```onCreate``` ```onUpgrade``` ```onDowngrade``` are already internally wrapped in a transaction, so there is no need to wrap your statements in a transaction within those callbacks.
+to access the database.
 
 ```dart
 await database.transaction((txn) async {
@@ -359,7 +338,5 @@ thread is blocked while in a transaction...
 
 ## More
 
-* [How to](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/how_to.md) guide
-* [Notes about Desktop support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/desktop_support.md)
-* [Notes about Encryption support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/encryption_support.md)
-* [Notes about Web support](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/web_support.md)
+* [How to](https://github.com/octodb/sqflite/blob/master/sqflite/doc/how_to.md) guide
+* [Notes about Desktop support](https://github.com/octodb/sqflite/blob/master/sqflite/doc/desktop_support.md)
