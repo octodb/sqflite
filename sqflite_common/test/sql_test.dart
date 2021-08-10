@@ -1,4 +1,4 @@
-import 'package:sqflite_common/sql.dart';
+import 'package:octodb_sqflite_common/sql.dart';
 import 'package:test/test.dart';
 
 void main() {

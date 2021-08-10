@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/database_mixin.dart';
-import 'package:sqflite_common/src/factory.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/database_mixin.dart';
+import 'package:octodb_sqflite_common/src/factory.dart';
 
 /// Internal access to invoke method
 extension DatabaseFactoryInternalsExt on DatabaseFactory {

@@ -26,9 +26,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite_dev.dart';
-import 'package:sqflite_common/sqflite_logger.dart';
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/sqflite_dev.dart';
+import 'package:octodb_sqflite_common/sqflite_logger.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:test/test.dart';
 

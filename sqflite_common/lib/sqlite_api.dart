@@ -10,22 +10,22 @@ library;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:sqflite_common/sql.dart' show ConflictAlgorithm;
-import 'package:sqflite_common/src/database.dart';
-import 'package:sqflite_common/src/database_mixin.dart';
-import 'package:sqflite_common/src/open_options.dart' as impl;
-import 'package:sqflite_common/src/transaction.dart';
+import 'package:octodb_sqflite_common/sql.dart' show ConflictAlgorithm;
+import 'package:octodb_sqflite_common/src/database.dart';
+import 'package:octodb_sqflite_common/src/database_mixin.dart';
+import 'package:octodb_sqflite_common/src/open_options.dart' as impl;
+import 'package:octodb_sqflite_common/src/transaction.dart';
 
-export 'package:sqflite_common/sql.dart' show ConflictAlgorithm;
-export 'package:sqflite_common/src/constant.dart'
+export 'package:octodb_sqflite_common/sql.dart' show ConflictAlgorithm;
+export 'package:octodb_sqflite_common/src/constant.dart'
     show
         inMemoryDatabasePath,
         sqfliteLogLevelNone,
         sqfliteLogLevelSql,
         sqfliteLogLevelVerbose;
-export 'package:sqflite_common/src/database_ext.dart' show SqfliteDatabaseExt;
-export 'package:sqflite_common/src/exception.dart' show DatabaseException;
-export 'package:sqflite_common/src/sqflite_debug.dart'
+export 'package:octodb_sqflite_common/src/database_ext.dart' show SqfliteDatabaseExt;
+export 'package:octodb_sqflite_common/src/exception.dart' show DatabaseException;
+export 'package:octodb_sqflite_common/src/sqflite_debug.dart'
     show SqfliteDatabaseFactoryDebug, DatabaseFactoryLoggerDebugExt;
 
 

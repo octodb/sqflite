@@ -1,6 +1,7 @@
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/database.dart';
-import 'package:sqflite_common/src/mixin/factory.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/database.dart';
+import 'package:octodb_sqflite_common/src/mixin/factory.dart';
+import 'package:synchronized/synchronized.dart';
 
 /// Internal database factory interface.
 abstract class SqfliteDatabaseFactory

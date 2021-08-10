@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:sqflite_common/src/exception.dart';
+import 'package:octodb_sqflite_common/src/exception.dart';
 import 'package:test/test.dart';
 
 void main() {

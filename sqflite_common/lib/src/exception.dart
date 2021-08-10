@@ -1,5 +1,5 @@
-import 'package:sqflite_common/src/arg_utils.dart';
-import 'package:sqflite_common/src/constant.dart';
+import 'package:octodb_sqflite_common/src/arg_utils.dart';
+import 'package:octodb_sqflite_common/src/constant.dart';
 
 /// Wrap sqlite native exception
 abstract class DatabaseException implements Exception {

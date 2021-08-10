@@ -1,10 +1,10 @@
 /// To be deprecated
 library;
 
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/mixin/import_mixin.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/mixin/import_mixin.dart';
 // ignore: deprecated_member_use_from_same_package
-export 'package:sqflite_common/src/mixin/import_mixin.dart' show SqfliteOptions;
+export 'package:octodb_sqflite_common/src/mixin/import_mixin.dart' show SqfliteOptions;
 
 /// Dev extension
 ///

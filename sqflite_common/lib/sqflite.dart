@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:sqflite_common/src/sqflite_database_factory.dart';
+import 'package:octodb_sqflite_common/src/sqflite_database_factory.dart';
 
 import 'sqlite_api.dart';
 
-export 'package:sqflite_common/src/sqflite_database_factory.dart'
+export 'package:octodb_sqflite_common/src/sqflite_database_factory.dart'
     show databaseFactory, databaseFactoryOrNull;
 
 export 'sqlite_api.dart';

@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:core' as core;
 import 'package:meta/meta.dart';
-import 'package:sqflite_common/sqflite_logger.dart';
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/batch.dart';
-import 'package:sqflite_common/src/database.dart';
-import 'package:sqflite_common/src/database_mixin.dart';
-import 'package:sqflite_common/src/env_utils.dart';
-import 'package:sqflite_common/src/factory.dart';
-import 'package:sqflite_common/src/factory_mixin.dart';
-import 'package:sqflite_common/src/transaction.dart';
+import 'package:octodb_sqflite_common/sqflite_logger.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/batch.dart';
+import 'package:octodb_sqflite_common/src/database.dart';
+import 'package:octodb_sqflite_common/src/database_mixin.dart';
+import 'package:octodb_sqflite_common/src/env_utils.dart';
+import 'package:octodb_sqflite_common/src/factory.dart';
+import 'package:octodb_sqflite_common/src/factory_mixin.dart';
+import 'package:octodb_sqflite_common/src/transaction.dart';
 
 /// Log helper to avoid overflow
 String logTruncateAny(Object? value) {

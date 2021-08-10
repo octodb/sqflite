@@ -1,8 +1,8 @@
 import 'dart:io' as io;
 
-import 'package:sqflite_common/src/database_file_system.dart';
-import 'package:sqflite_common/src/database_file_system_io.dart';
-import 'package:sqflite_common/src/platform/platform.dart';
+import 'package:octodb_sqflite_common/src/database_file_system.dart';
+import 'package:octodb_sqflite_common/src/database_file_system_io.dart';
+import 'package:octodb_sqflite_common/src/platform/platform.dart';
 
 class _PlatformIo extends Platform {
   @override

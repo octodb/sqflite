@@ -1,1 +1,1 @@
-export 'package:sqflite_common/src/constant.dart' hide methodSetDebugModeOn;
+export 'package:octodb_sqflite_common/src/constant.dart' hide methodSetDebugModeOn;

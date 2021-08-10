@@ -1,5 +1,5 @@
-import 'package:sqflite_common/src/utils.dart';
-import 'package:sqflite_common/utils/utils.dart';
+import 'package:octodb_sqflite_common/src/utils.dart';
+import 'package:octodb_sqflite_common/utils/utils.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,7 +1,7 @@
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common/src/constant.dart';
-import 'package:sqflite_common/src/factory_mixin.dart';
-import 'package:sqflite_common/src/mixin/factory.dart';
+import 'package:octodb_sqflite_common/sqlite_api.dart';
+import 'package:octodb_sqflite_common/src/constant.dart';
+import 'package:octodb_sqflite_common/src/factory_mixin.dart';
+import 'package:octodb_sqflite_common/src/mixin/factory.dart';
 import 'package:test/test.dart';
 
 import 'src_mixin_test.dart';

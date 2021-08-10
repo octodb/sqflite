@@ -1,4 +1,4 @@
-import 'package:sqflite_common/src/database_file_system.dart';
+import 'package:octodb_sqflite_common/src/database_file_system.dart';
 
 export 'platform_io.dart' if (dart.library.js_interop) 'platform_web.dart';
 
