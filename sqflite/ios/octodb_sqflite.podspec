@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'octodb_sqflite'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'OctoDB & SQLite plugin'
   s.description      = <<-DESC
 Access OctoDB & SQLite databases
@@ -17,7 +17,8 @@ Access OctoDB & SQLite databases
   s.dependency 'Flutter'
 
   #s.dependency 'OctoFMDB', '>= 1.0.0'
-  s.dependency 'OctoFMDB', :git => 'https://github.com/octodb/fmdb'
+  #s.dependency 'OctoFMDB', :git => 'https://github.com/octodb/fmdb'
+  s.dependency 'OctoFMDB'
 
   s.platform = :ios, '9.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
