@@ -1,3 +1,7 @@
+## 2.0.0-dev.3
+
+* Fix podspecs
+
 ## 2.0.0-dev.2
 
 * New build & updated readme

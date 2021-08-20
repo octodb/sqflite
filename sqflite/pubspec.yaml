@@ -3,7 +3,7 @@ homepage: https://github.com/octodb/sqflite/tree/master/sqflite
 repository: https://github.com/tekartik/sqflite/tree/master/sqflite
 issue_tracker: https://github.com/tekartik/sqflite/issues
 description: Flutter plugin for OctoDB and SQLite
-version: 2.0.0-dev.2
+version: 2.0.0-dev.3
 
 # This package supports all platforms listed below.
 platforms:
