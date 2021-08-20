@@ -1,7 +1,7 @@
 name: octodb_sqflite
 homepage: https://github.com/octodb/sqflite/tree/master/sqflite
 description: Flutter plugin for OctoDB and SQLite
-version: 2.0.0-dev.2
+version: 2.0.0-dev.3
 
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
