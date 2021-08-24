@@ -12,10 +12,13 @@ Supports iOS, Android and MacOS.
 * DB operation executed in a background thread on iOS and Android
 
 Other platforms support:
+
 * Linux/Windows/DartVM support using [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)
 * Web [is not supported](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/troubleshooting.md#error-in-flutter-web).
 
-Usage example: 
+
+## Sample Project
+
 * [notepad_sqflite](https://github.com/alextekartik/flutter_app_example/tree/master/notepad_sqflite): Simple flutter notepad working on iOS/Android/Windows/linux/Mac
 
 
@@ -38,7 +41,7 @@ flutter pub get
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
 
 
-## Native libraries
+## Native Libraries
 
 To install the free version of OctoDB native libraries, execute the following in your project root folder:
 
@@ -57,15 +60,13 @@ cd ..
 When moving to the full version of OctoDB just copy the libraries to the respective folders as done above, replacing the existing files.
 
 
-## Usage example
-
-Import `sqflite.dart`
+## Usage
 
 ```dart
 import 'package:octodb_sqflite/sqflite.dart';
 ```
 
-### Opening a database
+### Opening a Database
 
 A SQLite database is a file in the file system. If no full path is given, the file is saved in the folder obtained by `getDatabasesPath()`, which is the default database directory on Android and the documents directory on iOS/MacOS.
 
@@ -74,8 +75,8 @@ var uri = 'file:my_db.db?node=secondary&connect=tcp://111.222.33.44:1234'
 var db = await openDatabase(uri);
 ```
 
-Many applications use one database and would never need to close it (it will be closed when the application is
-terminated). If you want to release resources, you can close the database.
+Many applications use the database and would never need to close it (it will be closed when the application is
+terminated). If you want to release resources, you can close the database:
 
 ```dart
 await db.close();
@@ -83,7 +84,102 @@ await db.close();
 
 * See [more information on opening a database](https://github.com/octodb/sqflite/blob/master/sqflite/doc/opening_db.md).
 
-### Raw SQL queries
+
+### Database Status
+
+:warning:  The application should **NOT** access the database before it is ready for read and write!
+
+Here is an example block of code using database events:
+
+```dart
+db.events(onNotReady: () {
+  // the user is not logged in. show the login screen (and do not access the database)
+  ...
+}, onReady: () {
+  // the user is already logged in or the login was successful. show the main screen
+  ...
+}, onSync: () {
+  // the db received an update. update the screen with new data
+  ...
+});
+```
+
+It is also possible to check without events:
+
+```dart
+if await db.isReady() {
+  ...
+}
+```
+
+To check the full status of the database we can use:
+
+```dart
+var res = await db.rawQuery('PRAGMA sync_status');
+print('sync status: ${res}');
+```
+
+
+### User Sign Up & User Login 
+
+When the user is accessing your app for the first time (in any device), it will be required to sign up
+
+The app can capture user data and send it to the backend user authorization service using this command:
+
+```
+pragma user_signup='<user_data>'
+```
+
+If the user is already signed up on your backend and is now using a new device, it should use the login option:
+
+```
+pragma user_login='<user_data>'
+```
+
+You can use any user data you want (phone number, username, OAuth...). The data can be encoded in a text (JSON, YAML...)
+or a binary format. If using a text format, each single quote must be doubled (replace `'` with `''`).
+If using a binary format then it must be encoded in base64 or hex because the command only accepts strings.
+
+Here is an example code using JSON:
+
+```dart
+var user = {};
+user["email"] = ...
+user["password"] = ...
+String str = json.encode(user);
+str = str.replaceAll("'", "''");
+db.execute("pragma user_signup='${str}'");
+```
+
+Notice that you must implement the [backend service](https://github.com/octodb/docs/blob/master/auth-service.md)
+that handles these authorization requests.
+
+
+### Multi-User App
+
+To support multiple users in a single app installation your app can have a database for each user.
+
+Your app will need to keep track of which database is used for each user.
+An easy way is to convert the username or e-mail into hex format and then use it as the database name:
+
+```dart
+var dbname = hex(email) + ".db"
+var uri = "file:" + dbname + "?node=secondary&connect=tcp://111.222.33.44:1234"
+```
+
+#### Sign Out
+
+Just close the currently open database and display the signup & login screen
+
+#### Login
+
+When the user enters its data (usually e-mail and password):
+
+1. Get the database name based on the e-mail and open it
+2. Wait for the db event. If not ready, then send signup/login info via the `pragma` command. If ready, then check if the password is correct
+
+
+### Raw SQL Queries
     
 Demo code to perform Raw SQL queries
 
@@ -95,6 +191,8 @@ String uri = 'file:' + path + '?node=secondary&connect=tcp://server:port';
 
 // open the database
 Database database = await openDatabase(uri);
+
+// --- the code below should be executed after the database is ready for access ---
 
 // Insert some records in a transaction
 await database.transaction((txn) async {
@@ -133,13 +231,14 @@ count = await database
     .rawDelete('DELETE FROM Test WHERE name = ?', ['another name']);
 assert(count == 1);
 
-// Close the database
-await database.close();
+// Close the database - only if strictly necessary
+//await database.close();
 ```
 
 Basic information on SQL [here](https://github.com/octodb/sqflite/blob/master/sqflite/doc/sql.md).
 
-### SQL helpers
+
+### SQL Helpers
 
 Example using the helpers
 
@@ -210,7 +309,7 @@ class TodoProvider {
 }
 ```
 
-### Read results
+### Read Results
 
 Assuming the following read results:
 
@@ -237,27 +336,31 @@ Map<String, Object?> map = Map<String, Object?>.from(mapRead);
 map['my_column'] = 1;
 ```
 
-### Transaction
 
-Don't use the database but only use the Transaction object in a transaction
-to access the database.
+### Transactions
+
+:warning: Do not use the database object when inside of a transaction!
+
+Only use the transaction object:
 
 ```dart
 await database.transaction((txn) async {
-  // Ok
+  // OK
   await txn.execute('CREATE TABLE Test1 (id INTEGER PRIMARY KEY)');
-  
-  // DON'T  use the database object in a transaction
-  // this will deadlock!
+
+  // DO NOT use the database object in a transaction
+  // This will deadlock!
   await database.execute('CREATE TABLE Test2 (id INTEGER PRIMARY KEY)');
 });
 ```
 
 A transaction is committed if the callback does not throw an error. If an error is thrown,
-the transaction is cancelled. So to rollback a  transaction one way is to throw an exception.
+the transaction is cancelled.
+
+To rollback a transaction throw an exception.
 
 
-### Batch support
+### Batch Support
 
 To avoid ping-pong between dart and native code, you can use `Batch`:
 
@@ -300,6 +403,7 @@ can ignore errors so that every successfull operation is ran and committed even 
 await batch.commit(continueOnError: true);
 ```
 
+
 ## Table and column names
 
 In general it is better to avoid using SQLite keywords for entity names. If any of the following
@@ -326,7 +430,8 @@ argument, but is escaped in the `where` argument.
 db.query('table', columns: ['group'], where: '"group" = ?', whereArgs: ['my_group']);
 ```
 
-## Supported SQLite types
+
+## Supported SQLite Types
 
 No validity check is done on values yet so please avoid non supported types [https://www.sqlite.org/datatype3.html](https://www.sqlite.org/datatype3.html)
 
@@ -354,7 +459,8 @@ More information on supported types [here](https://github.com/tekartik/sqflite/b
 
 * Dart type: `Uint8List`
 
-## Current issues
+
+## Current Issues
 
 * Due to the way transaction works in SQLite (threads), concurrent read and write transaction are not supported. 
 All calls are currently synchronized and transactions block are exclusive. I thought that a basic way to support 
