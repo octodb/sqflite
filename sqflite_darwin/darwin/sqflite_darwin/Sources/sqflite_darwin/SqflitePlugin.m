@@ -2,6 +2,7 @@
 #import "SqfliteDatabase.h"
 #import "SqfliteOperation.h"
 #import "SqfliteDarwinImport.h"
+#import <OctoFMDB/FMDB.h>
 
 #import <sqlite3.h>
 

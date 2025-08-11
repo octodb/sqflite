@@ -2,7 +2,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'sqflite_darwin'
+  s.name             = 'octodb_sqflite'
   s.version          = '0.0.4'
   s.summary          = 'An iOS and macOS implementation for the OctoDB & SQLite plugin.'
   s.description      = <<-DESC
@@ -17,10 +17,9 @@ Pod::Spec.new do |s|
   s.public_header_files = 'sqflite_darwin/Sources/sqflite_darwin/include/**/*.{h,m}'
   s.ios.dependency 'Flutter'
   s.osx.dependency 'FlutterMacOS'
-  s.dependency 'OctoFMDB', :git => 'https://github.com/octodb/fmdb'
+  s.dependency 'OctoFMDB'
   s.ios.deployment_target = '12.0'
   s.osx.deployment_target = '10.14'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.resource_bundles = {'sqflite_darwin_privacy' => ['sqflite_darwin/Sources/sqflite_darwin/Resources/PrivacyInfo.xcprivacy']}
 end
-
