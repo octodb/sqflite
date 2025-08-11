@@ -1,6 +1,6 @@
 package com.tekartik.sqflite;
 
-import android.database.sqlite.SQLiteProgram;
+import org.sqlite.database.sqlite.SQLiteProgram;
 
 import java.util.ArrayList;
 import java.util.Arrays;

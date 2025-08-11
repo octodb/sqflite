@@ -1,8 +1,8 @@
-# sqflite
+# octodb_sqflite
 
-[![pub package](https://img.shields.io/pub/v/sqflite.svg)](https://pub.dev/packages/sqflite)
+[![pub package](https://img.shields.io/pub/v/sqflite.svg)](https://pub.dev/packages/octodb_sqflite)
 
-SQLite plugin for [Flutter](https://flutter.io).
+OctoDB/SQLite plugin for [Flutter](https://flutter.io).
 Supports iOS, Android and MacOS.
 
 * Support transactions and batches
@@ -33,7 +33,7 @@ This command will add a line to your package's `pubspec.yaml` file and run an im
 
 ```yaml
 dependencies:
-  sqflite: 
+  octodb_sqflite:
 ```
 
 ## Usage example

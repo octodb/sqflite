@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:sqflite/src/compat.dart';
-import 'package:sqflite/src/constant.dart';
-import 'package:sqflite/src/sqflite_android.dart';
-import 'package:sqflite/src/sqflite_impl.dart';
-import 'package:sqflite/src/utils.dart' as impl;
-import 'package:sqflite/utils/utils.dart' as utils;
+import 'package:octodb_sqflite/src/compat.dart';
+import 'package:octodb_sqflite/src/constant.dart';
+import 'package:octodb_sqflite/src/sqflite_android.dart';
+import 'package:octodb_sqflite/src/sqflite_impl.dart';
+import 'package:octodb_sqflite/src/utils.dart' as impl;
+import 'package:octodb_sqflite/utils/utils.dart' as utils;
 
 import 'sqlite_api.dart';
 
-export 'package:sqflite/sql.dart' show ConflictAlgorithm;
-export 'package:sqflite/src/compat.dart';
+export 'package:octodb_sqflite/sql.dart' show ConflictAlgorithm;
+export 'package:octodb_sqflite/src/compat.dart';
 export 'package:sqflite_common/sqflite.dart';
 
 export 'sqlite_api.dart';

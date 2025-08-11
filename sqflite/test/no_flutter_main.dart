@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:sqflite/sqlite_api.dart';
-import 'package:sqflite/src/mixin/factory.dart';
+import 'package:octodb_sqflite/sqlite_api.dart';
+import 'package:octodb_sqflite/src/mixin/factory.dart';
 
 Future<void> main() async {
   final factory = buildDatabaseFactory(

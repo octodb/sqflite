@@ -3,12 +3,12 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqlite_api.dart';
-import 'package:sqflite/src/constant.dart';
-import 'package:sqflite/src/database.dart';
-import 'package:sqflite/src/mixin.dart';
-import 'package:sqflite/src/open_options.dart';
-import 'package:sqflite/utils/utils.dart';
+import 'package:octodb_sqflite/sqlite_api.dart';
+import 'package:octodb_sqflite/src/constant.dart';
+import 'package:octodb_sqflite/src/database.dart';
+import 'package:octodb_sqflite/src/mixin.dart';
+import 'package:octodb_sqflite/src/open_options.dart';
+import 'package:octodb_sqflite/utils/utils.dart';
 
 void main() {
   group('mixin_flutter', () {

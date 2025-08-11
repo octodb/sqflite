@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/src/exception_impl.dart' as impl;
-import 'package:sqflite/src/sqflite_impl.dart' as impl;
-import 'package:sqflite/src/sqflite_import.dart';
+import 'package:octodb_sqflite/sqflite.dart';
+import 'package:octodb_sqflite/src/exception_impl.dart' as impl;
+import 'package:octodb_sqflite/src/sqflite_impl.dart' as impl;
+import 'package:octodb_sqflite/src/sqflite_import.dart';
 import 'package:sqflite_common/sqflite.dart' as sqflite_common;
 // ignore: implementation_imports
 import 'package:sqflite_common/src/mixin/platform.dart';
